@@ -48,39 +48,49 @@ Pre-Prod (UAT/QA/DEV)
 ##Usage
 
 ```
-c:\Python35-32\PROJECTS\Ora2S3>dist\oracle_to_Redshift_loader.exe
+c:\Python35-32\PROJECTS\Ora2redshift>dist\oracle_to_Redshift_loader.exe
 #############################################################################
-#Oracle to Redshift Data Loader (v1.2, beta, 04/05/2016 15:11:53) [64bit]
+#Oracle-to-Redshift Data Loader (v1.2, beta, 04/05/2016 15:11:53) [64bit] 
 #Copyright (c): 2016 Alex Buzunov, All rights reserved.
-#Agreement: Use this tool at your own risk. Author is not liable for any damages
+#Agreement: Use this tool at your own risk. Author is not liable for any damages 
 #           or losses related to the use of this software.
 ################################################################################
-Usage:
+Usage:  
   set AWS_ACCESS_KEY_ID=<you access key>
   set AWS_SECRET_ACCESS_KEY=<you secret key>
   set ORACLE_LOGIN=tiger/scott@orcl
-  set ORACLE_CLIENT_HOME=C:\app\oracle12\product\12.1.0\dbhome_1
+  set ORACLE_CLIENT_HOME=C:\\app\\oracle12\\product\\12.1.0\\dbhome_1
+  set REDSHIFT_CONNECT_STRING="dbname='***' port='5439' user='***' password='***' host='mycluster.***.redshift.amazonaws.com'"  
+  
+  
+  oracle_to_redshift_loader.exe [<ora_query_file>] [<ora_col_delim>] [<ora_add_header>] 
+			    [<s3_bucket_name>] [<s3_key_name>] [<s3_use_rr>] [<s3_public>]
+	
+	--ora_query_file -- SQL query to execure in source Oracle db.
+	--ora_col_delim  -- CSV column delimiter (,).
+	--ora_quote	-- Enclose values in quotes (")
+	--ora_add_header -- Add header line to CSV file (False).
+	--ora_lame_duck  -- Limit rows for trial upload (1000).
+	--create_data_dump -- Use it if you want to persist streamed data on your filesystem.
+	
+	--s3_bucket_name -- S3 bucket name (always set it).
+	--s3_location	 -- New bucket location name (us-west-2)
+				Set it if you are creating new bucket
+	--s3_key_name 	 -- CSV file name (to store query results on S3).
+		if <s3_key_name> is not specified, the oracle query filename (ora_query_file) will be used.
+	--s3_use_rr -- Use reduced redundancy storage (False).
+	--s3_write_chunk_size -- Chunk size for multipart upoad to S3 (10<<21, ~20MB).
+	--s3_public -- Make uploaded file public (False).
+	
+	--red_to_table  -- Target Amazon-Redshit table name.
+	--red_quote 	-- Set it if input values are quoted.
+	--red_timeformat -- Timestamp format for Redshift.
+	--red_ignoreheader -- skip header in input stream
+	
+	Oracle data uploaded to S3 is always compressed (gzip).
 
-  oracle_to_s3_loader.exe [<ora_query_file>] [<ora_col_delim>] [<ora_add_header>]
-                            [<s3_bucket_name>] [<s3_key_name>] [<s3_use_rr>] [<s3_public>]
-
-        --ora_query_file -- SQL query to execure in source Oracle db.
-        --ora_col_delim  -- CSV column delimiter (|).
-        --ora_add_header -- Add header line to CSV file (False).
-        --ora_lame_duck  -- Limit rows for trial load (1000).
-        --create_data_dump -- Use it if you want to persist streamed data on your filesystem.
-
-        --s3_bucket_name -- S3 bucket name (always set it).
-        --s3_location    -- New bucket location name (us-west-2)
-                                Set it if you are creating new bucket
-        --s3_key_name    -- CSV file name (to store query results on S3).
-                if <s3_key_name> is not specified, the oracle query filename (ora_query_file) will be used.
-        --s3_use_rr -- Use reduced redundancy storage (False).
-        --s3_write_chunk_size -- Chunk size for multipart upoad to S3 (10<<21, ~20MB).
-        --s3_public -- Make loaded file public (False).
-        --redshift_table -- Target Redshift table.
-
-        Oracle data uploaded to S3 is always compressed (gzip).
+	Boto S3 docs: http://boto.cloudhackers.com/en/latest/ref/s3.html
+	psycopg2 docs: http://initd.org/psycopg/docs/
 
 ```
 #Example
@@ -104,7 +114,7 @@ In this example complete table `test2` get's uploaded to Aamzon-S3 as compressed
 Contents of the file *table_query.sql*:
 
 ```
-SELECT * FROM test2;
+SELECT * FROM crime_test;
 
 ```
 Also temporary dump file is created for analysis (by default there are no files created)
@@ -115,16 +125,15 @@ Use argument `-t, --s3_location` to set target region name
 
 Contents of the file *test.bat*:
 ```
-dist\oracle_to_s3_loader.exe ^
-	-q table_query.sql ^
-	-d "|" ^
-	-e ^
-	-b test_bucket ^
-	-k oracle_table_export ^
-	-r ^
-	-p ^
-	-s
-	-t target_table
+dist-64bit\oracle_to_redshift_loader.exe ^
+-q table_query.sql ^
+-d "," ^
+-b pythonuploadtest1 ^
+-k oracle_table_export ^
+-r ^
+-o crime_test ^
+-m "DD/MM/YYYY HH12:MI:SS" ^
+-s
 ```
 Executing `test.bat`:
 
