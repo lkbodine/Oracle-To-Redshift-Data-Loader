@@ -1,17 +1,16 @@
 # Oracle-to-Redshift-Data-Loader
-Let's you stream your Oracle table/query data to Amazon-Redshift from Windows CLI (command line).
-
+    Used for ad-hoc query data results transfer from Oracle to Amazon-Redshift.
+    Works from Windows CLI (command line).
 
 Features:
- - Streams Oracle table data to Amazon-Redshift.
- - No need to create CSV extracts before load to Redshift.
- - Data stream is compressed while load to Redshift.
- - No need for Amazon AWS CLI.
+ - Streams Oracle table (or query) data to Amazon-Redshift.
+ - No need to create CSV extracts and S3 uploads before load to Redshift.
+ - Data stream is compressed while loaded to Redshift.
  - Works from your OS Windows desktop (command line).
  - It's executable (Oracle_To_Redshift_Loader.exe)  - no need for Python install.
  - It's 64 bit - it will work on any vanilla DOS for 64-bit Windows.
  - AWS Access Keys are not passed as arguments. 
- - Written using Python/boto/PyInstaller.
+ - Written using Python/boto/psycopg2/PyInstaller.
 
 
 ##Version
@@ -26,21 +25,23 @@ Windows|64bit|[1.2 beta]
 
 ## How it works
 - Tool connects to source Oracle DB and opens data pipe for reading.
-- Data is pumped to S3 using multipart upload.
+- Data stream is compressed and pumped to S3 using multipart upload.
 - Optional upload to Reduced Redundancy storage (not RR by default).
-- Optional "make it public" after upload (private by default)
-- If doesn't, bucket is created
-- You can control the region where new bucket is created
+- Optional "make it public" after upload (private by default).
+- If S3 bucket doesn't exists it will be created.
+- You can control the region where new bucket is created.
 - Streamed data can be tee'd (dumped on disk) during load.
-- If not set, S3 Key defaulted to query file name.
-- Data is loaded to Redshift using  COPY command
-- It's a Python/boto script
+- If not set, S3 Key defaulted to input query file name.
+- Data is loaded to Redshift from S3 using COPY command
+- Target Redshift table has to exist
+- It's a Python/boto/psycopg2 script
 	* Boto S3 docs: http://boto.cloudhackers.com/en/latest/ref/s3.html
+	* psycopg2 docs: http://initd.org/psycopg/docs/
 - Executable is created using [pyInstaller] (http://www.pyinstaller.org/)
 
 ##Audience
 
-Database/ETL developers, Data Integrators, Data Engineers, Business Analysts, AWS Developers, DevOps, 
+Database/ETL developers, Data Integrators, Data Engineers, Business Analysts, AWS Developers, SysOps
 
 ##Designated Environment
 Pre-Prod (UAT/QA/DEV)
@@ -48,9 +49,10 @@ Pre-Prod (UAT/QA/DEV)
 ##Usage
 
 ```
-c:\Python35-32\PROJECTS\Ora2S3>dist\oracle_to_Redshift_loader.exe
+c:\Python35-32\PROJECTS\Ora2redshift>dist\oracle_to_Redshift_loader.exe
+c:\Python35-32\PROJECTS\Ora2redshift>c:\python27\python.exe oracle_to_redshift_loader.py
 #############################################################################
-#Oracle to Redshift Data Loader (v1.2, beta, 04/05/2016 15:11:53) [64bit]
+#Oracle-to-Redshift Data Loader (v1.2, beta, 04/05/2016 15:11:53) [64bit]
 #Copyright (c): 2016 Alex Buzunov, All rights reserved.
 #Agreement: Use this tool at your own risk. Author is not liable for any damages
 #           or losses related to the use of this software.
@@ -58,16 +60,26 @@ c:\Python35-32\PROJECTS\Ora2S3>dist\oracle_to_Redshift_loader.exe
 Usage:
   set AWS_ACCESS_KEY_ID=<you access key>
   set AWS_SECRET_ACCESS_KEY=<you secret key>
+
   set ORACLE_LOGIN=tiger/scott@orcl
   set ORACLE_CLIENT_HOME=C:\app\oracle12\product\12.1.0\dbhome_1
+  
+  set NLS_DATE_FORMAT="MM/DD/YYYY HH12:MI:SS"
+  set NLS_TIMESTAMP_FORMAT="MM/DD/YYYY HH12:MI:SS.FF"
+  set NLS_TIMESTAMP_TZ_FORMAT="MM/DD/YYYY HH12:MI:SS.FF TZH:TZM"
 
-  oracle_to_s3_loader.exe [<ora_query_file>] [<ora_col_delim>] [<ora_add_header>]
+  set REDSHIFT_CONNECT_STRING="dbname='***' port='5439' user='***' password='***' host='mycluster.***.redshift.amazonaws.com'"
+
+
+  oracle_to_redshift_loader.exe [<ora_query_file>] [<ora_col_delim>] [<ora_add_header>]
                             [<s3_bucket_name>] [<s3_key_name>] [<s3_use_rr>] [<s3_public>]
 
         --ora_query_file -- SQL query to execure in source Oracle db.
-        --ora_col_delim  -- CSV column delimiter (|).
+        --ora_col_delim  -- CSV column delimiter for downstream(,).
+        --ora_quote     -- Enclose values in quotes (")
         --ora_add_header -- Add header line to CSV file (False).
-        --ora_lame_duck  -- Limit rows for trial load (1000).
+        --ora_lame_duck  -- Limit rows for trial upload (1000).
+
         --create_data_dump -- Use it if you want to persist streamed data on your filesystem.
 
         --s3_bucket_name -- S3 bucket name (always set it).
@@ -77,34 +89,44 @@ Usage:
                 if <s3_key_name> is not specified, the oracle query filename (ora_query_file) will be used.
         --s3_use_rr -- Use reduced redundancy storage (False).
         --s3_write_chunk_size -- Chunk size for multipart upoad to S3 (10<<21, ~20MB).
-        --s3_public -- Make loaded file public (False).
-        --redshift_table -- Target Redshift table.
+        --s3_public -- Make uploaded file public (False).
+
+        --red_to_table  -- Target Amazon-Redshit table name.
+        --red_col_delim  -- CSV column delimiter for upstream(,).
+        --red_quote     -- Set it if input values are quoted.
+        --red_timeformat -- Timestamp format for Redshift ('MM/DD/YYYY HH12:MI:SS').
+        --red_ignoreheader -- skip header in input stream
 
         Oracle data uploaded to S3 is always compressed (gzip).
+
+        Boto S3 docs: http://boto.cloudhackers.com/en/latest/ref/s3.html
+        psycopg2 docs: http://initd.org/psycopg/docs/
 
 ```
 #Example
 
 
 ###Environment variables
+Set the following environment variables (for all tests):
 
-* Set the following environment variables (for all tests):
-set_env.bat:
 ```
 set AWS_ACCESS_KEY_ID=<you access key>
 set AWS_SECRET_ACCESS_KEY=<you secret key>
 
 set ORACLE_LOGIN=tiger/scott@orcl
 set ORACLE_CLIENT_HOME=C:\\app\\oracle12\\product\\12.1.0\\dbhome_1
+
+set REDSHIFT_CONNECT_STRING="dbname='***' port='5439' user='***' password='***' host='mycluster.***.redshift.amazonaws.com'"  
 ```
 
 ### Test load with data dump.
-In this example complete table `test2` get's uploaded to Aamzon-S3 as compressed CSV file.
+Oracle table `crime_test` contains data from data.gov [Crime](https://catalog.data.gov/dataset/crime) dataset.
+In this example complete table `crime_test` get's uploaded to Aamzon-S3 as compressed CSV file.
 
 Contents of the file *table_query.sql*:
 
 ```
-SELECT * FROM test2;
+SELECT * FROM crime_test;
 
 ```
 Also temporary dump file is created for analysis (by default there are no files created)
@@ -115,38 +137,45 @@ Use argument `-t, --s3_location` to set target region name
 
 Contents of the file *test.bat*:
 ```
-dist\oracle_to_s3_loader.exe ^
-	-q table_query.sql ^
-	-d "|" ^
-	-e ^
-	-b test_bucket ^
-	-k oracle_table_export ^
-	-r ^
-	-p ^
-	-s
-	-t target_table
+dist-64bit\oracle_to_redshift_loader.exe ^
+-q table_query.sql ^
+-d "," ^
+-b test_bucket ^
+-k oracle_table_export ^
+-r ^
+-o crime_test ^
+-m "DD/MM/YYYY HH12:MI:SS" ^
+-s
 ```
 Executing `test.bat`:
 
 ```
-c:\Python35-32\PROJECTS\Ora2Redshift>dist\oracle_to_redshift_loader.exe   -q table_query.sql      -d "|"  -e      -b test_bucket       -k oracle_table_export  -r      -p      -s
+c:\Python35-32\PROJECTS\Ora2redshift>dist-64bit\oracle_to_redshift_loader.exe -q table_query.sql -d "," -b test_bucket -k oracle_table_export -r -o crime_test -m "DD/MM/YYYY HH12:MI:SS" -s
 Uploading results of "table_query.sql" to existing bucket "test_bucket"
-Dumping data to: c:\Python35-32\PROJECTS\Ora2S3\data_dump\table_query\test_bucket\oracle_table_export.20160405_235310.gz
-1 chunk 10.0 GB [8.95 sec]
-2 chunk 5.94 GB [5.37 sec]
-Uncompressed data size: 15.94 GB
-Compressed data size: 63.39 MB
-Load complete (17.58 sec).
+Started reading from Oracle (1.25 sec).
+Dumping data to: c:\Python35-32\PROJECTS\Ora2redshift\data_dump\table_query\test_bucket\oracle_table_export.20160408_203221.gz
+1 chunk 10.0 MB [11.36 sec]
+2 chunk 10.0 MB [11.08 sec]
+3 chunk 10.0 MB [11.14 sec]
+4 chunk 10.0 MB [11.12 sec]
+5 chunk 877.66 MB [0.96 sec]
+Size: Uncompressed: 40.86 MB
+Size: Compressed  : 8.95 MB
+Elapsed: Oracle+S3    :69.12 sec.
+Elapsed: S3->Redshift :3.68 sec.
+--------------------------------
+Total elapsed: 72.81 sec.
+
 
 ```
 
-####Test query
+![test](https://raw.githubusercontent.com/alexbuz/Oracle-To-Redshift-Data-Loader/master/test/ora2redshift.png)
 
 
 
 ###Download
-* `git clone https://github.com/alexbuz/Oracle_to_Redshift_Data_Loader`
-* [Master Release](https://github.com/alexbuz/Oracle_To_Redshift_Data_Loader/archive/master.zip) -- `oracle_to_redshift_loader 1.2`
+* `git clone https://github.com/alexbuz/Oracle-to-Redshift-Data-Loader`
+* [Master Release](https://github.com/alexbuz/Oracle-to-Redshift-Data-Loader/archive/master.zip) -- `oracle_to_redshift_loader 1.2`
 
 
 
@@ -158,23 +187,23 @@ Load complete (17.58 sec).
 #   
 #FAQ
 #  
-#### Can it load Oracle data to Amazon S3 file?
+#### Can it load Oracle data to Amazon Redshift Database?
 Yes, it is the main purpose of this tool.
 
-#### Can developers integrate `Oracle_To_S3_Data_Uploader` into their ETL pipelines?
+#### Can developers integrate `Oracle-to-Redshift-Data-Loader` into their ETL pipelines?
 Yes. Assuming they are doing it on OS Windows.
 
-#### How fast is data load using `Oracle_To_Redshift_Data_Loader`?
+#### How fast is data load using `Oracle-to-Redshift-Data-Loader`?
 As fast as any implementation of multi-part load using Python and boto.
 
 ####How to inscease load speed?
 Input data stream is getting compressed before upload to S3. So not much could be done here.
-You may want to run it closer to source or target for better performance.
+You may want to run it closer to source or target endpoints for better performance.
 
-#### What are the other ways to move large amounts of data from Oracle to S3?
-You can write a sqoop script that can be scheduled as an 'EMR Activity' under Data Pipeline.
+#### What are the other ways to move large amounts of data from Oracle to Redshift?
+You can write a sqoop script that can be scheduled with Data Pipeline.
 
-#### Does it create temporary data file to facilitate data load to S3?
+#### Does it create temporary data file?
 No
 
 #### Can I log transfered data for analysis?
