@@ -84,8 +84,8 @@ Usage:
 	--s3_public -- Make uploaded file public (False).
 	
 	--red_to_table  -- Target Amazon-Redshit table name.
-	--red_quote 	-- Set it if input values are quoted ("DD/MM/YYYY HH12:MI:SS").
-	--red_timeformat -- Timestamp format for Redshift.
+	--red_quote 	-- Set it if input values are quoted (").
+	--red_timeformat -- Timestamp format for Redshift ("DD/MM/YYYY HH12:MI:SS").
 	--red_ignoreheader -- skip header in input stream
 	
 	Oracle data uploaded to S3 is always compressed (gzip).
