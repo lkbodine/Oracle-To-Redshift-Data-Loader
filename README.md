@@ -2,7 +2,6 @@
 Ad-hoc query data results transfer from Oracle to Amazon-Redshift.
 Works from Windows CLI (command line).
 
-
 Features:
  - Streams Oracle table data to Amazon-Redshift.
  - No need to create CSV extracts before load to Redshift.
