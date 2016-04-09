@@ -1,0 +1,15 @@
+c:\Python35-32\PROJECTS\Ora2redshift>dist-64bit\oracle_to_redshift_loader.exe -q table_query.sql -d "," -b pythonuploadtest1 -k oracle_table_export -r -o crime_test -m "DD/MM/YYYY HH12:MI:SS" -s
+Uploading results of "table_query.sql" to existing bucket "pythonuploadtest1"
+Started reading from Oracle (1.25 sec).
+Dumping data to: c:\Python35-32\PROJECTS\Ora2redshift\data_dump\table_query\pythonuploadtest1\oracle_table_export.20160408_203221.gz
+1 chunk 10.0 MB [11.36 sec]
+2 chunk 10.0 MB [11.08 sec]
+3 chunk 10.0 MB [11.14 sec]
+4 chunk 10.0 MB [11.12 sec]
+5 chunk 877.66 MB [0.96 sec]
+Size: Uncompressed: 40.86 MB
+Size: Compressed  : 8.95 MB
+Elapsed: Oracle+S3    :69.12 sec.
+Elapsed: S3->Redshift :3.68 sec.
+--------------------------------
+Total elapsed: 72.81 sec.
