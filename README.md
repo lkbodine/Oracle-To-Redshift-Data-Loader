@@ -128,7 +128,7 @@ Contents of the file *test.bat*:
 dist-64bit\oracle_to_redshift_loader.exe ^
 -q table_query.sql ^
 -d "," ^
--b pythonuploadtest1 ^
+-b test_bucket ^
 -k oracle_table_export ^
 -r ^
 -o crime_test ^
@@ -138,14 +138,22 @@ dist-64bit\oracle_to_redshift_loader.exe ^
 Executing `test.bat`:
 
 ```
-c:\Python35-32\PROJECTS\Ora2Redshift>dist\oracle_to_redshift_loader.exe   -q table_query.sql      -d "|"  -e      -b test_bucket       -k oracle_table_export  -r      -p      -s
+c:\Python35-32\PROJECTS\Ora2redshift>dist-64bit\oracle_to_redshift_loader.exe -q table_query.sql -d "," -b test_bucket -k oracle_table_export -r -o crime_test -m "DD/MM/YYYY HH12:MI:SS" -s
 Uploading results of "table_query.sql" to existing bucket "test_bucket"
-Dumping data to: c:\Python35-32\PROJECTS\Ora2S3\data_dump\table_query\test_bucket\oracle_table_export.20160405_235310.gz
-1 chunk 10.0 GB [8.95 sec]
-2 chunk 5.94 GB [5.37 sec]
-Uncompressed data size: 15.94 GB
-Compressed data size: 63.39 MB
-Load complete (17.58 sec).
+Started reading from Oracle (1.25 sec).
+Dumping data to: c:\Python35-32\PROJECTS\Ora2redshift\data_dump\table_query\test_bucket\oracle_table_export.20160408_203221.gz
+1 chunk 10.0 MB [11.36 sec]
+2 chunk 10.0 MB [11.08 sec]
+3 chunk 10.0 MB [11.14 sec]
+4 chunk 10.0 MB [11.12 sec]
+5 chunk 877.66 MB [0.96 sec]
+Size: Uncompressed: 40.86 MB
+Size: Compressed  : 8.95 MB
+Elapsed: Oracle+S3    :69.12 sec.
+Elapsed: S3->Redshift :3.68 sec.
+--------------------------------
+Total elapsed: 72.81 sec.
+
 
 ```
 
@@ -154,8 +162,8 @@ Load complete (17.58 sec).
 
 
 ###Download
-* `git clone https://github.com/alexbuz/Oracle_to_Redshift_Data_Loader`
-* [Master Release](https://github.com/alexbuz/Oracle_To_Redshift_Data_Loader/archive/master.zip) -- `oracle_to_redshift_loader 1.2`
+* `git clone https://github.com/alexbuz/Oracle-to-Redshift-Data-Loader`
+* [Master Release](https://github.com/alexbuz/Oracle-to-Redshift-Data-Loader/archive/master.zip) -- `oracle_to_redshift_loader 1.2`
 
 
 
@@ -170,10 +178,10 @@ Load complete (17.58 sec).
 #### Can it load Oracle data to Amazon S3 file?
 Yes, it is the main purpose of this tool.
 
-#### Can developers integrate `Oracle_To_S3_Data_Uploader` into their ETL pipelines?
+#### Can developers integrate `Oracle-to-Redshift-Data-Loader` into their ETL pipelines?
 Yes. Assuming they are doing it on OS Windows.
 
-#### How fast is data load using `Oracle_To_Redshift_Data_Loader`?
+#### How fast is data load using `Oracle-to-Redshift-Data-Loader`?
 As fast as any implementation of multi-part load using Python and boto.
 
 ####How to inscease load speed?
