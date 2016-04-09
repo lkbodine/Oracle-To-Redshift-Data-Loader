@@ -3,10 +3,9 @@
     Works from Windows CLI (command line).
 
 Features:
- - Streams Oracle table data to Amazon-Redshift.
- - No need to create CSV extracts before load to Redshift.
- - Data stream is compressed while load to Redshift.
- - No need for Amazon AWS CLI.
+ - Streams Oracle table (or query) data to Amazon-Redshift.
+ - No need to create CSV extracts and S3 uploads before load to Redshift.
+ - Data stream is compressed while loaded to Redshift.
  - Works from your OS Windows desktop (command line).
  - It's executable (Oracle_To_Redshift_Loader.exe)  - no need for Python install.
  - It's 64 bit - it will work on any vanilla DOS for 64-bit Windows.
@@ -26,14 +25,14 @@ Windows|64bit|[1.2 beta]
 
 ## How it works
 - Tool connects to source Oracle DB and opens data pipe for reading.
-- Data is pumped to S3 using multipart upload.
+- Data stream is compressed and pumped to S3 using multipart upload.
 - Optional upload to Reduced Redundancy storage (not RR by default).
-- Optional "make it public" after upload (private by default)
-- If doesn't, bucket is created
-- You can control the region where new bucket is created
+- Optional "make it public" after upload (private by default).
+- If S3 bucket doesn't exists it will be created.
+- You can control the region where new bucket is created.
 - Streamed data can be tee'd (dumped on disk) during load.
-- If not set, S3 Key defaulted to query file name.
-- Data is loaded to Redshift using  COPY command
+- If not set, S3 Key defaulted to input query file name.
+- Data is loaded to Redshift from S3 using COPY command
 - Target Redshift table has to exist
 - It's a Python/boto/psycopg2 script
 	* Boto S3 docs: http://boto.cloudhackers.com/en/latest/ref/s3.html
@@ -42,7 +41,7 @@ Windows|64bit|[1.2 beta]
 
 ##Audience
 
-Database/ETL developers, Data Integrators, Data Engineers, Business Analysts, AWS Developers, DevOps, 
+Database/ETL developers, Data Integrators, Data Engineers, Business Analysts, AWS Developers, SysOps
 
 ##Designated Environment
 Pre-Prod (UAT/QA/DEV)
@@ -99,19 +98,21 @@ Usage:
 
 
 ###Environment variables
+Set the following environment variables (for all tests):
 
-* Set the following environment variables (for all tests):
-set_env.bat:
 ```
 set AWS_ACCESS_KEY_ID=<you access key>
 set AWS_SECRET_ACCESS_KEY=<you secret key>
 
 set ORACLE_LOGIN=tiger/scott@orcl
 set ORACLE_CLIENT_HOME=C:\\app\\oracle12\\product\\12.1.0\\dbhome_1
+
+set REDSHIFT_CONNECT_STRING="dbname='***' port='5439' user='***' password='***' host='mycluster.***.redshift.amazonaws.com'"  
 ```
 
 ### Test load with data dump.
-In this example complete table `test2` get's uploaded to Aamzon-S3 as compressed CSV file.
+Oracle table `crime_test` contains data from data.gov [Crime](https://catalog.data.gov/dataset/crime) dataset.
+In this example complete table `crime_test` get's uploaded to Aamzon-S3 as compressed CSV file.
 
 Contents of the file *table_query.sql*:
 
@@ -177,7 +178,7 @@ Total elapsed: 72.81 sec.
 #   
 #FAQ
 #  
-#### Can it load Oracle data to Amazon S3 file?
+#### Can it load Oracle data to Amazon Redshift Database?
 Yes, it is the main purpose of this tool.
 
 #### Can developers integrate `Oracle-to-Redshift-Data-Loader` into their ETL pipelines?
@@ -188,12 +189,12 @@ As fast as any implementation of multi-part load using Python and boto.
 
 ####How to inscease load speed?
 Input data stream is getting compressed before upload to S3. So not much could be done here.
-You may want to run it closer to source or target for better performance.
+You may want to run it closer to source or target endpoints for better performance.
 
-#### What are the other ways to move large amounts of data from Oracle to S3?
-You can write a sqoop script that can be scheduled as an 'EMR Activity' under Data Pipeline.
+#### What are the other ways to move large amounts of data from Oracle to Redshift?
+You can write a sqoop script that can be scheduled with Data Pipeline.
 
-#### Does it create temporary data file to facilitate data load to S3?
+#### Does it create temporary data file?
 No
 
 #### Can I log transfered data for analysis?
