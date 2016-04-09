@@ -50,48 +50,57 @@ Pre-Prod (UAT/QA/DEV)
 
 ```
 c:\Python35-32\PROJECTS\Ora2redshift>dist\oracle_to_Redshift_loader.exe
+c:\Python35-32\PROJECTS\Ora2redshift>c:\python27\python.exe oracle_to_redshift_loader.py
 #############################################################################
-#Oracle-to-Redshift Data Loader (v1.2, beta, 04/05/2016 15:11:53) [64bit] 
+#Oracle-to-Redshift Data Loader (v1.2, beta, 04/05/2016 15:11:53) [64bit]
 #Copyright (c): 2016 Alex Buzunov, All rights reserved.
-#Agreement: Use this tool at your own risk. Author is not liable for any damages 
+#Agreement: Use this tool at your own risk. Author is not liable for any damages
 #           or losses related to the use of this software.
 ################################################################################
-Usage:  
+Usage:
   set AWS_ACCESS_KEY_ID=<you access key>
   set AWS_SECRET_ACCESS_KEY=<you secret key>
-  set ORACLE_LOGIN=tiger/scott@orcl
-  set ORACLE_CLIENT_HOME=C:\\app\\oracle12\\product\\12.1.0\\dbhome_1
-  set REDSHIFT_CONNECT_STRING="dbname='***' port='5439' user='***' password='***' host='mycluster.***.redshift.amazonaws.com'"  
-  
-  
-  oracle_to_redshift_loader.exe [<ora_query_file>] [<ora_col_delim>] [<ora_add_header>] 
-			    [<s3_bucket_name>] [<s3_key_name>] [<s3_use_rr>] [<s3_public>]
-	
-	--ora_query_file -- SQL query to execure in source Oracle db.
-	--ora_col_delim  -- CSV column delimiter (,).
-	--ora_quote	-- Enclose values in quotes (")
-	--ora_add_header -- Add header line to CSV file (False).
-	--ora_lame_duck  -- Limit rows for trial upload (1000).
-	--create_data_dump -- Use it if you want to persist streamed data on your filesystem.
-	
-	--s3_bucket_name -- S3 bucket name (always set it).
-	--s3_location	 -- New bucket location name (us-west-2)
-				Set it if you are creating new bucket
-	--s3_key_name 	 -- CSV file name (to store query results on S3).
-		if <s3_key_name> is not specified, the oracle query filename (ora_query_file) will be used.
-	--s3_use_rr -- Use reduced redundancy storage (False).
-	--s3_write_chunk_size -- Chunk size for multipart upoad to S3 (10<<21, ~20MB).
-	--s3_public -- Make uploaded file public (False).
-	
-	--red_to_table  -- Target Amazon-Redshit table name.
-	--red_quote 	-- Set it if input values are quoted (").
-	--red_timeformat -- Timestamp format for Redshift ("DD/MM/YYYY HH12:MI:SS").
-	--red_ignoreheader -- skip header in input stream
-	
-	Oracle data uploaded to S3 is always compressed (gzip).
 
-	Boto S3 docs: http://boto.cloudhackers.com/en/latest/ref/s3.html
-	psycopg2 docs: http://initd.org/psycopg/docs/
+  set ORACLE_LOGIN=tiger/scott@orcl
+  set ORACLE_CLIENT_HOME=C:\app\oracle12\product\12.1.0\dbhome_1
+  
+  set NLS_DATE_FORMAT="MM/DD/YYYY HH12:MI:SS"
+  set NLS_TIMESTAMP_FORMAT="MM/DD/YYYY HH12:MI:SS.FF"
+  set NLS_TIMESTAMP_TZ_FORMAT="MM/DD/YYYY HH12:MI:SS.FF TZH:TZM"
+
+  set REDSHIFT_CONNECT_STRING="dbname='***' port='5439' user='***' password='***' host='mycluster.***.redshift.amazonaws.com'"
+
+
+  oracle_to_redshift_loader.exe [<ora_query_file>] [<ora_col_delim>] [<ora_add_header>]
+                            [<s3_bucket_name>] [<s3_key_name>] [<s3_use_rr>] [<s3_public>]
+
+        --ora_query_file -- SQL query to execure in source Oracle db.
+        --ora_col_delim  -- CSV column delimiter for downstream(,).
+        --ora_quote     -- Enclose values in quotes (")
+        --ora_add_header -- Add header line to CSV file (False).
+        --ora_lame_duck  -- Limit rows for trial upload (1000).
+
+        --create_data_dump -- Use it if you want to persist streamed data on your filesystem.
+
+        --s3_bucket_name -- S3 bucket name (always set it).
+        --s3_location    -- New bucket location name (us-west-2)
+                                Set it if you are creating new bucket
+        --s3_key_name    -- CSV file name (to store query results on S3).
+                if <s3_key_name> is not specified, the oracle query filename (ora_query_file) will be used.
+        --s3_use_rr -- Use reduced redundancy storage (False).
+        --s3_write_chunk_size -- Chunk size for multipart upoad to S3 (10<<21, ~20MB).
+        --s3_public -- Make uploaded file public (False).
+
+        --red_to_table  -- Target Amazon-Redshit table name.
+        --red_col_delim  -- CSV column delimiter for upstream(,).
+        --red_quote     -- Set it if input values are quoted.
+        --red_timeformat -- Timestamp format for Redshift ('MM/DD/YYYY HH12:MI:SS').
+        --red_ignoreheader -- skip header in input stream
+
+        Oracle data uploaded to S3 is always compressed (gzip).
+
+        Boto S3 docs: http://boto.cloudhackers.com/en/latest/ref/s3.html
+        psycopg2 docs: http://initd.org/psycopg/docs/
 
 ```
 #Example
