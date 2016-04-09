@@ -11,7 +11,7 @@ Features:
  - It's executable (Oracle_To_Redshift_Loader.exe)  - no need for Python install.
  - It's 64 bit - it will work on any vanilla DOS for 64-bit Windows.
  - AWS Access Keys are not passed as arguments. 
- - Written using Python/boto/PyInstaller.
+ - Written using Python/boto/psycopg2/PyInstaller.
 
 
 ##Version
@@ -34,8 +34,10 @@ Windows|64bit|[1.2 beta]
 - Streamed data can be tee'd (dumped on disk) during load.
 - If not set, S3 Key defaulted to query file name.
 - Data is loaded to Redshift using  COPY command
-- It's a Python/boto script
+- Target Redshift table has to exist
+- It's a Python/boto/psycopg2 script
 	* Boto S3 docs: http://boto.cloudhackers.com/en/latest/ref/s3.html
+	* psycopg2 docs: http://initd.org/psycopg/docs/
 - Executable is created using [pyInstaller] (http://www.pyinstaller.org/)
 
 ##Audience
