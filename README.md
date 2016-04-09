@@ -1,5 +1,6 @@
 # Oracle-to-Redshift-Data-Loader
-Let's you stream your Oracle table/query data to Amazon-Redshift from Windows CLI (command line).
+Ad-hoc query data results transfer from Oracle to Amazon-Redshift.
+Works from Windows CLI (command line).
 
 
 Features:
