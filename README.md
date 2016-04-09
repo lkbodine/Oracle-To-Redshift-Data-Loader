@@ -226,6 +226,17 @@ Boto is used to upload file to S3.
 SQL*Plus is used to spool data to compressor pipe.
 psycopg2 is used to establish ODBC connection with Redshift clusted and execute `COPY` command.
 
+#### What would be my Oracle-to-AWS migration strategy?
+ - Size the database
+ - Network
+ - Version of Oracle
+ - Oracle clinet (SQL*Plus) availability
+ - Are you doing it in one step or multiple iterations?
+ 
+#### Was there an AWS white paper on Oracle to AWS migration strategies?
+Yes, [here](https://d0.awsstatic.com/whitepapers/strategies-for-migrating-oracle-database-to-aws.pdf) it is.
+
+
 
 #### Does it delete file from S3 after upload?
 No
