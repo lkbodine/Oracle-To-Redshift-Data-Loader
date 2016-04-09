@@ -50,7 +50,6 @@ Pre-Prod (UAT/QA/DEV)
 
 ```
 c:\Python35-32\PROJECTS\Ora2redshift>dist\oracle_to_Redshift_loader.exe
-c:\Python35-32\PROJECTS\Ora2redshift>c:\python27\python.exe oracle_to_redshift_loader.py
 #############################################################################
 #Oracle-to-Redshift Data Loader (v1.2, beta, 04/05/2016 15:11:53) [64bit]
 #Copyright (c): 2016 Alex Buzunov, All rights reserved.
