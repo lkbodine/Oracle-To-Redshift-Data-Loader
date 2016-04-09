@@ -119,7 +119,6 @@ Works from Windows CLI (command line).
 <a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h2>
 
 <pre><code>c:\Python35-32\PROJECTS\Ora2redshift&gt;dist\oracle_to_Redshift_loader.exe
-c:\Python35-32\PROJECTS\Ora2redshift&gt;c:\python27\python.exe oracle_to_redshift_loader.py
 #############################################################################
 #Oracle-to-Redshift Data Loader (v1.2, beta, 04/05/2016 15:11:53) [64bit]
 #Copyright (c): 2016 Alex Buzunov, All rights reserved.
@@ -186,6 +185,10 @@ set AWS_SECRET_ACCESS_KEY=&lt;you secret key&gt;
 
 set ORACLE_LOGIN=tiger/scott@orcl
 set ORACLE_CLIENT_HOME=C:\\app\\oracle12\\product\\12.1.0\\dbhome_1
+
+  set NLS_DATE_FORMAT="MM/DD/YYYY HH12:MI:SS"
+  set NLS_TIMESTAMP_FORMAT="MM/DD/YYYY HH12:MI:SS.FF"
+  set NLS_TIMESTAMP_TZ_FORMAT="MM/DD/YYYY HH12:MI:SS.FF TZH:TZM"
 
 set REDSHIFT_CONNECT_STRING="dbname='***' port='5439' user='***' password='***' host='mycluster.***.redshift.amazonaws.com'"  
 </code></pre>
@@ -317,6 +320,22 @@ It uses PostgreSQL COPY command to load file located on S3 into Redshift table.<
 Boto is used to upload file to S3. 
 SQL</em>Plus is used to spool data to compressor pipe.
 psycopg2 is used to establish ODBC connection with Redshift clusted and execute <code>COPY</code> command.</p>
+
+<h4>
+<a id="what-would-be-my-oracle-to-aws-migration-strategy" class="anchor" href="#what-would-be-my-oracle-to-aws-migration-strategy" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>What would be my Oracle-to-AWS migration strategy?</h4>
+
+<ul>
+<li>Size the database</li>
+<li>Network</li>
+<li>Version of Oracle</li>
+<li>Oracle clinet (SQL*Plus) availability</li>
+<li>Are you doing it in one step or multiple iterations?</li>
+</ul>
+
+<h4>
+<a id="was-there-an-aws-white-paper-on-oracle-to-aws-migration-strategies" class="anchor" href="#was-there-an-aws-white-paper-on-oracle-to-aws-migration-strategies" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Was there an AWS white paper on Oracle to AWS migration strategies?</h4>
+
+<p>Yes, <a href="https://d0.awsstatic.com/whitepapers/strategies-for-migrating-oracle-database-to-aws.pdf">here</a> it is.</p>
 
 <h4>
 <a id="does-it-delete-file-from-s3-after-upload" class="anchor" href="#does-it-delete-file-from-s3-after-upload" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Does it delete file from S3 after upload?</h4>
