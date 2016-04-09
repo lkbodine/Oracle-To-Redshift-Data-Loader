@@ -140,7 +140,7 @@ Load complete (17.58 sec).
 
 ```
 
-####Test query
+![test](https://raw.githubusercontent.com/alexbuz/Oracle-To-Redshift-Data-Loader/master/test/ora2redshift.png)
 
 
 
