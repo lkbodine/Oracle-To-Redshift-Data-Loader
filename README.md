@@ -116,6 +116,10 @@ set AWS_SECRET_ACCESS_KEY=<you secret key>
 set ORACLE_LOGIN=tiger/scott@orcl
 set ORACLE_CLIENT_HOME=C:\\app\\oracle12\\product\\12.1.0\\dbhome_1
 
+  set NLS_DATE_FORMAT="MM/DD/YYYY HH12:MI:SS"
+  set NLS_TIMESTAMP_FORMAT="MM/DD/YYYY HH12:MI:SS.FF"
+  set NLS_TIMESTAMP_TZ_FORMAT="MM/DD/YYYY HH12:MI:SS.FF TZH:TZM"
+  
 set REDSHIFT_CONNECT_STRING="dbname='***' port='5439' user='***' password='***' host='mycluster.***.redshift.amazonaws.com'"  
 ```
 
