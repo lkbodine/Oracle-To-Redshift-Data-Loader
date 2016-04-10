@@ -5,7 +5,7 @@
 Features:
  - Streams Oracle table (or query) data to Amazon-Redshift.
  - No need to create CSV extracts and S3 uploads before load to Redshift.
- - Data stream is compressed while loaded to Redshift.
+ - Data stream is compressed while loaded to S3 (and then to Redshift).
  - Works from your OS Windows desktop (command line).
  - It's executable (Oracle_To_Redshift_Loader.exe)  - no need for Python install.
  - It's 64 bit - it will work on any vanilla DOS for 64-bit Windows.
