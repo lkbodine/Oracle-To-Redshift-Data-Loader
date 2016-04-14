@@ -260,7 +260,7 @@ Yes, [here](https://d0.awsstatic.com/whitepapers/strategies-for-migrating-oracle
 #### Do you use psql to execute COPY command against Redshift?
 No. I use `psycopg2` python module.
 
-#### Why are you uloading extracted data to S3? whould it be easier to just execute COPY command foth spool file?
+#### Why are you uploading extracted data to S3? whould it be easier to just execute COPY command for local spool file?
 As of now you cannot load from local file. You can use COPY command with Amazon Redshift, but only with files located on S3.
 If you are loading CSV file from Windows command line - take a look at [CSV_Loader_For_Redshift](https://github.com/alexbuz/CSV_Loader_For_Redshift)
 
