@@ -174,7 +174,7 @@ Total elapsed: 72.81 sec.
 
 ![test](https://raw.githubusercontent.com/alexbuz/Oracle-To-Redshift-Data-Loader/master/test/ora2redshift.png)
 
-### Modifying default Redshift COPY behavior.
+### Modifying default Redshift COPY command.
 You can modify default Redshift COPY command this script is using.
 
 Open file `include\loader.py` and modify `sql` variable on line 24.
