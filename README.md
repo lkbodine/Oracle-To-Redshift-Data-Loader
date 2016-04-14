@@ -174,6 +174,22 @@ Total elapsed: 72.81 sec.
 
 ![test](https://raw.githubusercontent.com/alexbuz/Oracle-To-Redshift-Data-Loader/master/test/ora2redshift.png)
 
+### Modifying default copy behavior.
+You can modify default Redshift COPY commnad this script is using.
+Open file `include\loader.py` and modify `sql` variable on line 24.
+
+```
+	sql="""
+COPY %s FROM '%s' 
+	CREDENTIALS 'aws_access_key_id=%s;aws_secret_access_key=%s' 
+	DELIMITER '%s' 
+	FORMAT CSV %s 
+	GZIP 
+	%s 
+	%s; 
+	COMMIT;
+	...
+```
 
 
 ###Download
@@ -239,7 +255,22 @@ psycopg2 is used to establish ODBC connection with Redshift clusted and execute 
 #### Was there an AWS white paper on Oracle to AWS migration strategies?
 Yes, [here](https://d0.awsstatic.com/whitepapers/strategies-for-migrating-oracle-database-to-aws.pdf) it is.
 
+#### Can I modify default psql COPY command?
+Yes. Edit include/loader.py and add/remove COPY command options
 
+Other options you may use:
+
+    COMPUPDATE OFF
+    EMPTYASNULL
+    ACCEPTANYDATE
+    ACCEPTINVCHARS AS '^'
+    GZIP
+    TRUNCATECOLUMNS
+    FILLRECORD
+    DELIMITER '$DELIM'
+    REMOVEQUOTES
+    STATUPDATE ON
+    MAXERROR AS $MaxERROR
 
 #### Does it delete file from S3 after upload?
 No
