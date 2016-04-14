@@ -1,0 +1,1 @@
+SELECT * FROM crime_test WHERE rownum<10000
