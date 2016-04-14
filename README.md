@@ -3,7 +3,7 @@
     Works from Windows CLI (command line).
 
 Features:
- - Streams Oracle table (or query) data to Amazon-Redshift.
+ - Loads Oracle table (or query) data to Amazon-Redshift.
  - No need to create CSV extracts and S3 uploads before load to Redshift.
  - Data stream is compressed while loaded to S3 (and then to Redshift).
  - Works from your OS Windows desktop (command line).
