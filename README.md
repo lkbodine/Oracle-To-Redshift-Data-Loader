@@ -277,7 +277,9 @@ Other options you may use:
 No
 
 #### Does it create target Redshift table?
-No
+By default `No`
+Using 	`include\loader.py` include you can extend default functionality and code in target table creation.
+
 
 #### Where are the sources?
 Please, contact me for sources.
