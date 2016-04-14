@@ -257,6 +257,13 @@ psycopg2 is used to establish ODBC connection with Redshift clusted and execute 
 #### Was there an AWS white paper on Oracle to AWS migration strategies?
 Yes, [here](https://d0.awsstatic.com/whitepapers/strategies-for-migrating-oracle-database-to-aws.pdf) it is.
 
+#### Do you use psql to execute COPY command against Redshift?
+No. I use `psycopg2` python module.
+
+#### Why are you uloading extracted data to S3? whould it be easier to just execute COPY command foth spool file?
+As of now you cannot load from local file. You can use COPY command with Amazon Redshift, but only with files located on S3.
+If you are loading CSV file from Windows command line - take a look at [CSV_Loader_For_Redshift](https://github.com/alexbuz/CSV_Loader_For_Redshift)
+
 #### Can I modify default psql COPY command?
 Yes. Edit include/loader.py and add/remove COPY command options
 
