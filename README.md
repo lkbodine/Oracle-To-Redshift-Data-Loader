@@ -247,6 +247,14 @@ Boto is used to upload file to S3.
 SQL*Plus is used to spool data to compressor pipe.
 psycopg2 is used to establish ODBC connection with Redshift clusted and execute `COPY` command.
 
+#### Why don't you use ODBC driver for Redshift to insert data?
+From my experience it's much slower that COPY command.
+It's 10x faster to upload CSV file to Amazon-S3 first and then run COPY command.
+You can still use ODBC for last step.
+If you are a Java shop, take a look at Progress [JDBC Driver](https://www.progress.com/blogs/booyah-amazon-redshift-challenge-loaded-in-8-min-oow14).
+They claim it can load 1 mil records in 6 min.
+
+
 #### What would be my Oracle-to-AWS migration strategy?
  - Size the database
  - Network
