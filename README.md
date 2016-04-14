@@ -1,11 +1,11 @@
 # Oracle-to-Redshift-Data-Loader
-    Used for ad-hoc query data results transfer from Oracle to Amazon-Redshift.
+    Used for ad-hoc query data results load from Oracle to Amazon-Redshift.
     Works from Windows CLI (command line).
 
 Features:
  - Streams Oracle table (or query) data to Amazon-Redshift.
  - No need to create CSV extracts and S3 uploads before load to Redshift.
- - Data stream is compressed while loaded to Redshift.
+ - Data stream is compressed while loaded to S3 (and then to Redshift).
  - Works from your OS Windows desktop (command line).
  - It's executable (Oracle_To_Redshift_Loader.exe)  - no need for Python install.
  - It's 64 bit - it will work on any vanilla DOS for 64-bit Windows.
@@ -50,7 +50,6 @@ Pre-Prod (UAT/QA/DEV)
 
 ```
 c:\Python35-32\PROJECTS\Ora2redshift>dist\oracle_to_Redshift_loader.exe
-c:\Python35-32\PROJECTS\Ora2redshift>c:\python27\python.exe oracle_to_redshift_loader.py
 #############################################################################
 #Oracle-to-Redshift Data Loader (v1.2, beta, 04/05/2016 15:11:53) [64bit]
 #Copyright (c): 2016 Alex Buzunov, All rights reserved.
@@ -116,6 +115,10 @@ set AWS_SECRET_ACCESS_KEY=<you secret key>
 set ORACLE_LOGIN=tiger/scott@orcl
 set ORACLE_CLIENT_HOME=C:\\app\\oracle12\\product\\12.1.0\\dbhome_1
 
+  set NLS_DATE_FORMAT="MM/DD/YYYY HH12:MI:SS"
+  set NLS_TIMESTAMP_FORMAT="MM/DD/YYYY HH12:MI:SS.FF"
+  set NLS_TIMESTAMP_TZ_FORMAT="MM/DD/YYYY HH12:MI:SS.FF TZH:TZM"
+  
 set REDSHIFT_CONNECT_STRING="dbname='***' port='5439' user='***' password='***' host='mycluster.***.redshift.amazonaws.com'"  
 ```
 
@@ -225,6 +228,17 @@ I used SQL*Plus, Python, Boto to write it.
 Boto is used to upload file to S3. 
 SQL*Plus is used to spool data to compressor pipe.
 psycopg2 is used to establish ODBC connection with Redshift clusted and execute `COPY` command.
+
+#### What would be my Oracle-to-AWS migration strategy?
+ - Size the database
+ - Network
+ - Version of Oracle
+ - Oracle clinet (SQL*Plus) availability
+ - Are you doing it in one step or multiple iterations?
+ 
+#### Was there an AWS white paper on Oracle to AWS migration strategies?
+Yes, [here](https://d0.awsstatic.com/whitepapers/strategies-for-migrating-oracle-database-to-aws.pdf) it is.
+
 
 
 #### Does it delete file from S3 after upload?
