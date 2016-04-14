@@ -34,7 +34,7 @@
         <h1>
 <a id="oracle-to-redshift-data-loader" class="anchor" href="#oracle-to-redshift-data-loader" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Oracle-to-Redshift-Data-Loader</h1>
 
-<pre><code>Used for ad-hoc query data results transfer from Oracle to Amazon-Redshift.
+<pre><code>Used for ad-hoc query data results load from Oracle to Amazon-Redshift.
 Works from Windows CLI (command line).
 </code></pre>
 
@@ -43,7 +43,7 @@ Works from Windows CLI (command line).
 <ul>
 <li>Streams Oracle table (or query) data to Amazon-Redshift.</li>
 <li>No need to create CSV extracts and S3 uploads before load to Redshift.</li>
-<li>Data stream is compressed while loaded to Redshift.</li>
+<li>Data stream is compressed while loaded to S3 (and then to Redshift).</li>
 <li>Works from your OS Windows desktop (command line).</li>
 <li>It's executable (Oracle_To_Redshift_Loader.exe)  - no need for Python install.</li>
 <li>It's 64 bit - it will work on any vanilla DOS for 64-bit Windows.</li>
@@ -248,6 +248,25 @@ Total elapsed: 72.81 sec.
 <p><img src="https://raw.githubusercontent.com/alexbuz/Oracle-To-Redshift-Data-Loader/master/test/ora2redshift.png" alt="test"></p>
 
 <h3>
+<a id="modifying-default-redshift-copy-behavior" class="anchor" href="#modifying-default-redshift-copy-behavior" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Modifying default Redshift COPY behavior.</h3>
+
+<p>You can modify default Redshift COPY command this script is using.</p>
+
+<p>Open file <code>include\loader.py</code> and modify <code>sql</code> variable on line 24.</p>
+
+<pre><code>    sql="""
+COPY %s FROM '%s' 
+    CREDENTIALS 'aws_access_key_id=%s;aws_secret_access_key=%s' 
+    DELIMITER '%s' 
+    FORMAT CSV %s 
+    GZIP 
+    %s 
+    %s; 
+    COMMIT;
+    ...
+</code></pre>
+
+<h3>
 <a id="download" class="anchor" href="#download" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Download</h3>
 
 <ul>
@@ -338,6 +357,26 @@ psycopg2 is used to establish ODBC connection with Redshift clusted and execute 
 <p>Yes, <a href="https://d0.awsstatic.com/whitepapers/strategies-for-migrating-oracle-database-to-aws.pdf">here</a> it is.</p>
 
 <h4>
+<a id="can-i-modify-default-psql-copy-command" class="anchor" href="#can-i-modify-default-psql-copy-command" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Can I modify default psql COPY command?</h4>
+
+<p>Yes. Edit include/loader.py and add/remove COPY command options</p>
+
+<p>Other options you may use:</p>
+
+<pre><code>COMPUPDATE OFF
+EMPTYASNULL
+ACCEPTANYDATE
+ACCEPTINVCHARS AS '^'
+GZIP
+TRUNCATECOLUMNS
+FILLRECORD
+DELIMITER '$DELIM'
+REMOVEQUOTES
+STATUPDATE ON
+MAXERROR AS $MaxERROR
+</code></pre>
+
+<h4>
 <a id="does-it-delete-file-from-s3-after-upload" class="anchor" href="#does-it-delete-file-from-s3-after-upload" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Does it delete file from S3 after upload?</h4>
 
 <p>No</p>
@@ -345,7 +384,8 @@ psycopg2 is used to establish ODBC connection with Redshift clusted and execute 
 <h4>
 <a id="does-it-create-target-redshift-table" class="anchor" href="#does-it-create-target-redshift-table" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Does it create target Redshift table?</h4>
 
-<p>No</p>
+<p>By default <code>No</code>
+Using   <code>include\loader.py</code> include you can extend default functionality and code in target table creation.</p>
 
 <h4>
 <a id="where-are-the-sources" class="anchor" href="#where-are-the-sources" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Where are the sources?</h4>
