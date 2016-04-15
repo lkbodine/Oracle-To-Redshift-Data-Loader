@@ -298,6 +298,11 @@ No
 #### Does it create target Redshift table?
 By default no, but using [include\loader.py](https://github.com/alexbuz/Oracle-To-Redshift-Data-Loader/blob/master/dist-64bit/include/loader.py) you can extend default functionality and code in target table creation.
 
+#### Can I execute multiple loaders in parallel?
+Yes. Use Windows CLI Powershell to schedule multiple loaders in parallel.
+
+Can I delete/truncate Oracle source after load?
+No, but you can code it into [include\extractor.py](https://github.com/alexbuz/Oracle-To-Redshift-Data-Loader/blob/master/dist-64bit/include/extractor.py)
 
 #### Where are the sources?
 Please, contact me for sources.
