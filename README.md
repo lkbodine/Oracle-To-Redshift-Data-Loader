@@ -175,6 +175,25 @@ Total elapsed: 72.81 sec.
 
 ![test](https://raw.githubusercontent.com/alexbuz/Oracle-To-Redshift-Data-Loader/master/test/ora2redshift.png)
 
+### Modifying default Oracle spooler.
+You can modify default Oracle spooler fuctionality.
+
+Open file [include\extractor.py](https://github.com/alexbuz/Oracle-To-Redshift-Data-Loader/blob/master/dist-64bit/include/extractor.py) and modify SQL*Plus config to your liking (line 24).
+
+```
+	q="""
+	set heading off line 32767 echo off feedback off  feed off pagesize 0 serveroutput off show off 
+	set define off head off serveroutput off arraysize 5000
+	SET LONG 50000	
+	SET VERIFY OFF
+	%s
+	SELECT '%s'||%s||'%s' str FROM (%s) %s;
+	exit;
+	...
+```
+
+
+
 ### Modifying default Redshift COPY command.
 You can modify default Redshift COPY command this script is using.
 
