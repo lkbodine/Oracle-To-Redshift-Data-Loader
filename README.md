@@ -224,6 +224,10 @@ You may want to run it closer to source or target endpoints for better performan
 #### What are the other ways to move large amounts of data from Oracle to Redshift?
 You can write a sqoop script that can be scheduled with Data Pipeline.
 
+#### Are you accessing any Oracle dictionary views or system objects?
+No. I only use DBMS_SQL.PARSE to describe query you provided in input query file.
+Check Python method `get_query_columns` in [extractor](https://github.com/alexbuz/Oracle-To-Redshift-Data-Loader/blob/master/dist-64bit/include/extractor.py) module. 
+
 #### Does it create temporary data file?
 No
 
