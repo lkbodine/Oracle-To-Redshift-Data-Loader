@@ -266,7 +266,7 @@ They claim it can load 1 mil records in 6 min.
 Yes, [here](https://d0.awsstatic.com/whitepapers/strategies-for-migrating-oracle-database-to-aws.pdf) it is.
 
 #### Do you use psql to execute COPY command against Redshift?
-No. I use `psycopg2` python module.
+No. I use `psycopg2` python module (ODBC).
 
 #### Why are you uploading extracted data to S3? whould it be easier to just execute COPY command for local spool file?
 As of now you cannot load from local file. You can use COPY command with Amazon Redshift, but only with files located on S3.
