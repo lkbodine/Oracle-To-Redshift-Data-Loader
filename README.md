@@ -11,7 +11,7 @@ Features:
  - It's 64 bit - it will work on any vanilla DOS for 64-bit Windows.
  - AWS Access Keys are not passed as arguments.  
  - You can modify default Python [extractor](https://github.com/alexbuz/Oracle-To-Redshift-Data-Loader/blob/master/dist-64bit/include/extractor.py) and [loader](https://github.com/alexbuz/Oracle-To-Redshift-Data-Loader/blob/master/dist-64bit/include/loader.py) code.
- - Written using Python/boto/psycopg2/PyInstaller.
+ - Written using Python/boto/psycopg2.
 
 
 ##Version
