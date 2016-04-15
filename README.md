@@ -242,9 +242,9 @@ Yes. Assuming they are doing it on OS Windows.
 #### How fast is data load using `Oracle-to-Redshift-Data-Loader`?
 As fast as any implementation of multi-part load using Python and boto.
 
-####How to inscease load speed?
-Input data stream is getting compressed before upload to S3. So not much could be done here.
-You may want to run it closer to source or target endpoints for better performance.
+####How do I increase load speed?
+The slowest part is S3 upload. So network speed and distance from source Oracle server and targe AWS region are important.
+You can run multiple instances of this tool configured to copy individual partitions of the same table.
 
 #### What are the other ways to move large amounts of data from Oracle to Redshift?
 You can write a sqoop script that can be scheduled with Data Pipeline.
