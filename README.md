@@ -227,8 +227,14 @@ COPY %s FROM '%s'
 #   
 #FAQ
 #  
-#### Can it load Oracle data to Amazon Redshift Database?
+#### Can it load Oracle table data to Amazon Redshift Database?
 Yes, it is the main purpose of this tool.
+Create query.sql file in the following format:
+```
+SELECT * FROM SOURCE_TABLE_NAME;
+```
+ - here `SOURCE_TABLE_NAME` is Oracle a table you want to copy over to Redshift.
+ - Target table has to exist.
 
 #### Can developers integrate `Oracle-to-Redshift-Data-Loader` into their ETL pipelines?
 Yes. Assuming they are doing it on OS Windows.
