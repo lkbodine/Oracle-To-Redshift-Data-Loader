@@ -9,8 +9,8 @@ Features:
  - Works from your OS Windows desktop (command line).
  - It's executable (Oracle_To_Redshift_Loader.exe)  - no need for Python install.
  - It's 64 bit - it will work on any vanilla DOS for 64-bit Windows.
- - AWS Access Keys are not passed as arguments. 
- - You can modify default Python loader code in `include\loader.py`
+ - AWS Access Keys are not passed as arguments.  
+ - You can modify default Python [extractor](https://github.com/alexbuz/Oracle-To-Redshift-Data-Loader/blob/master/dist-64bit/include/extractor.py) and [loader](https://github.com/alexbuz/Oracle-To-Redshift-Data-Loader/blob/master/dist-64bit/include/loader.py) code.
  - Written using Python/boto/psycopg2/PyInstaller.
 
 
@@ -178,7 +178,7 @@ Total elapsed: 72.81 sec.
 ### Modifying default Redshift COPY command.
 You can modify default Redshift COPY command this script is using.
 
-Open file `include\loader.py` and modify `sql` variable on line 24.
+Open file [include\loader.py](https://github.com/alexbuz/Oracle-To-Redshift-Data-Loader/blob/master/dist-64bit/include/loader.py) and modify `sql` variable on line 24.
 
 ```
 	sql="""
@@ -272,8 +272,11 @@ No. I use `psycopg2` python module (ODBC).
 As of now you cannot load from local file. You can use COPY command with Amazon Redshift, but only with files located on S3.
 If you are loading CSV file from Windows command line - take a look at [CSV_Loader_For_Redshift](https://github.com/alexbuz/CSV_Loader_For_Redshift)
 
+#### Can I modify spooler code?
+Yes. Spooler code is in [include\extractor.py](https://github.com/alexbuz/Oracle-To-Redshift-Data-Loader/blob/master/dist-64bit/include/extractor.py).
+
 #### Can I modify default psql COPY command?
-Yes. Edit include/loader.py and add/remove COPY command options
+Yes. Edit [include\loader.py](https://github.com/alexbuz/Oracle-To-Redshift-Data-Loader/blob/master/dist-64bit/include/loader.py) and add/remove COPY command options
 
 Other options you may use:
 
@@ -293,7 +296,7 @@ Other options you may use:
 No
 
 #### Does it create target Redshift table?
-By default no, but using `include\loader.py` you can extend default functionality and code in target table creation.
+By default no, but using [include\loader.py](https://github.com/alexbuz/Oracle-To-Redshift-Data-Loader/blob/master/dist-64bit/include/loader.py) you can extend default functionality and code in target table creation.
 
 
 #### Where are the sources?
