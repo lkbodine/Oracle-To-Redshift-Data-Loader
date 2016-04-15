@@ -34,7 +34,7 @@
         <h1>
 <a id="oracle-to-redshift-data-loader" class="anchor" href="#oracle-to-redshift-data-loader" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Oracle-to-Redshift-Data-Loader</h1>
 
-<pre><code>Used for ad-hoc query data results load from Oracle to Amazon-Redshift.
+<pre><code>Used for ad-hoc query results load from Oracle to Amazon-Redshift.
 Works from Windows CLI (command line).
 </code></pre>
 
@@ -50,7 +50,7 @@ Works from Windows CLI (command line).
 <li>AWS Access Keys are not passed as arguments.<br>
 </li>
 <li>You can modify default Python <a href="https://github.com/alexbuz/Oracle-To-Redshift-Data-Loader/blob/master/dist-64bit/include/extractor.py">extractor</a> and <a href="https://github.com/alexbuz/Oracle-To-Redshift-Data-Loader/blob/master/dist-64bit/include/loader.py">loader</a> code.</li>
-<li>Written using Python/boto/psycopg2/PyInstaller.</li>
+<li>Written using Python/boto/psycopg2.</li>
 </ul>
 
 <h2>
@@ -250,6 +250,24 @@ Total elapsed: 72.81 sec.
 <p><img src="https://raw.githubusercontent.com/alexbuz/Oracle-To-Redshift-Data-Loader/master/test/ora2redshift.png" alt="test"></p>
 
 <h3>
+<a id="modifying-default-oracle-spooler" class="anchor" href="#modifying-default-oracle-spooler" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Modifying default Oracle spooler.</h3>
+
+<p>You can modify default Oracle spooler fuctionality.</p>
+
+<p>Open file <a href="https://github.com/alexbuz/Oracle-To-Redshift-Data-Loader/blob/master/dist-64bit/include/extractor.py">include\extractor.py</a> and modify SQL*Plus config to your liking (line 24).</p>
+
+<pre><code>    q="""
+    set heading off line 32767 echo off feedback off  feed off pagesize 0 serveroutput off show off 
+    set define off head off serveroutput off arraysize 5000
+    SET LONG 50000  
+    SET VERIFY OFF
+    %s
+    SELECT '%s'||%s||'%s' str FROM (%s) %s;
+    exit;
+    ...
+</code></pre>
+
+<h3>
 <a id="modifying-default-redshift-copy-command" class="anchor" href="#modifying-default-redshift-copy-command" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Modifying default Redshift COPY command.</h3>
 
 <p>You can modify default Redshift COPY command this script is using.</p>
@@ -282,9 +300,18 @@ COPY %s FROM '%s'
 <a id="faq" class="anchor" href="#faq" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>FAQ</h1>
 
 <h4>
-<a id="can-it-load-oracle-data-to-amazon-redshift-database" class="anchor" href="#can-it-load-oracle-data-to-amazon-redshift-database" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Can it load Oracle data to Amazon Redshift Database?</h4>
+<a id="can-it-load-oracle-table-data-to-amazon-redshift-database" class="anchor" href="#can-it-load-oracle-table-data-to-amazon-redshift-database" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Can it load Oracle table data to Amazon Redshift Database?</h4>
 
-<p>Yes, it is the main purpose of this tool.</p>
+<p>Yes, it is the main purpose of this tool.
+Create query.sql file in the following format:</p>
+
+<pre><code>SELECT * FROM SOURCE_TABLE_NAME;
+</code></pre>
+
+<ul>
+<li>here <code>SOURCE_TABLE_NAME</code> is Oracle a table you want to copy over to Redshift.</li>
+<li>Target table has to exist.</li>
+</ul>
 
 <h4>
 <a id="can-developers-integrate-oracle-to-redshift-data-loader-into-their-etl-pipelines" class="anchor" href="#can-developers-integrate-oracle-to-redshift-data-loader-into-their-etl-pipelines" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Can developers integrate <code>Oracle-to-Redshift-Data-Loader</code> into their ETL pipelines?</h4>
@@ -297,15 +324,21 @@ COPY %s FROM '%s'
 <p>As fast as any implementation of multi-part load using Python and boto.</p>
 
 <h4>
-<a id="how-to-inscease-load-speed" class="anchor" href="#how-to-inscease-load-speed" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How to inscease load speed?</h4>
+<a id="how-do-i-increase-load-speed" class="anchor" href="#how-do-i-increase-load-speed" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How do I increase load speed?</h4>
 
-<p>Input data stream is getting compressed before upload to S3. So not much could be done here.
-You may want to run it closer to source or target endpoints for better performance.</p>
+<p>The slowest part is S3 upload. So network speed and distance from source Oracle server and targe AWS region are important.
+You can run multiple instances of this tool configured to copy individual partitions of the same table.</p>
 
 <h4>
 <a id="what-are-the-other-ways-to-move-large-amounts-of-data-from-oracle-to-redshift" class="anchor" href="#what-are-the-other-ways-to-move-large-amounts-of-data-from-oracle-to-redshift" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>What are the other ways to move large amounts of data from Oracle to Redshift?</h4>
 
 <p>You can write a sqoop script that can be scheduled with Data Pipeline.</p>
+
+<h4>
+<a id="are-you-accessing-any-oracle-dictionary-views-or-system-objects" class="anchor" href="#are-you-accessing-any-oracle-dictionary-views-or-system-objects" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Are you accessing any Oracle dictionary views or system objects?</h4>
+
+<p>No. I only use DBMS_SQL.PARSE to describe query you provided in input query file.
+Check Python method <code>get_query_columns</code> in <a href="https://github.com/alexbuz/Oracle-To-Redshift-Data-Loader/blob/master/dist-64bit/include/extractor.py">extractor</a> module. </p>
 
 <h4>
 <a id="does-it-create-temporary-data-file" class="anchor" href="#does-it-create-temporary-data-file" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Does it create temporary data file?</h4>
