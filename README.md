@@ -301,6 +301,8 @@ By default no, but using [include\loader.py](https://github.com/alexbuz/Oracle-T
 
 #### Where are the sources?
 Please, contact me for sources.
+Extractor code: [include\extractor.py](https://github.com/alexbuz/Oracle-To-Redshift-Data-Loader/blob/master/dist-64bit/include/extractor.py)
+Loader code: [include\loader.py](https://github.com/alexbuz/Oracle-To-Redshift-Data-Loader/blob/master/dist-64bit/include/loader.py)
 
 #### Can you modify functionality and add features?
 Yes, please, ask me for new features.
