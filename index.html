@@ -414,9 +414,19 @@ MAXERROR AS $MaxERROR
 <p>By default no, but using <a href="https://github.com/alexbuz/Oracle-To-Redshift-Data-Loader/blob/master/dist-64bit/include/loader.py">include\loader.py</a> you can extend default functionality and code in target table creation.</p>
 
 <h4>
+<a id="can-i-execute-multiple-loaders-in-parallel" class="anchor" href="#can-i-execute-multiple-loaders-in-parallel" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Can I execute multiple loaders in parallel?</h4>
+
+<p>Yes. Use Windows CLI Powershell to schedule multiple loaders in parallel.</p>
+
+<p>Can I delete/truncate Oracle source after load?
+No, but you can code it into <a href="https://github.com/alexbuz/Oracle-To-Redshift-Data-Loader/blob/master/dist-64bit/include/extractor.py">include\extractor.py</a></p>
+
+<h4>
 <a id="where-are-the-sources" class="anchor" href="#where-are-the-sources" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Where are the sources?</h4>
 
-<p>Please, contact me for sources.</p>
+<p>Please, contact me for sources.
+Extractor code: <a href="https://github.com/alexbuz/Oracle-To-Redshift-Data-Loader/blob/master/dist-64bit/include/extractor.py">include\extractor.py</a>
+Loader code: <a href="https://github.com/alexbuz/Oracle-To-Redshift-Data-Loader/blob/master/dist-64bit/include/loader.py">include\loader.py</a></p>
 
 <h4>
 <a id="can-you-modify-functionality-and-add-features" class="anchor" href="#can-you-modify-functionality-and-add-features" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Can you modify functionality and add features?</h4>
