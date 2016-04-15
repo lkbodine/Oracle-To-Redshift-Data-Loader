@@ -41,13 +41,15 @@ Works from Windows CLI (command line).
 <p>Features:</p>
 
 <ul>
-<li>Streams Oracle table (or query) data to Amazon-Redshift.</li>
+<li>Loads Oracle table (or query) data to Amazon-Redshift.</li>
 <li>No need to create CSV extracts and S3 uploads before load to Redshift.</li>
 <li>Data stream is compressed while loaded to S3 (and then to Redshift).</li>
 <li>Works from your OS Windows desktop (command line).</li>
 <li>It's executable (Oracle_To_Redshift_Loader.exe)  - no need for Python install.</li>
 <li>It's 64 bit - it will work on any vanilla DOS for 64-bit Windows.</li>
-<li>AWS Access Keys are not passed as arguments. </li>
+<li>AWS Access Keys are not passed as arguments.<br>
+</li>
+<li>You can modify default Python <a href="https://github.com/alexbuz/Oracle-To-Redshift-Data-Loader/blob/master/dist-64bit/include/extractor.py">extractor</a> and <a href="https://github.com/alexbuz/Oracle-To-Redshift-Data-Loader/blob/master/dist-64bit/include/loader.py">loader</a> code.</li>
 <li>Written using Python/boto/psycopg2/PyInstaller.</li>
 </ul>
 
@@ -248,11 +250,11 @@ Total elapsed: 72.81 sec.
 <p><img src="https://raw.githubusercontent.com/alexbuz/Oracle-To-Redshift-Data-Loader/master/test/ora2redshift.png" alt="test"></p>
 
 <h3>
-<a id="modifying-default-redshift-copy-behavior" class="anchor" href="#modifying-default-redshift-copy-behavior" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Modifying default Redshift COPY behavior.</h3>
+<a id="modifying-default-redshift-copy-command" class="anchor" href="#modifying-default-redshift-copy-command" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Modifying default Redshift COPY command.</h3>
 
 <p>You can modify default Redshift COPY command this script is using.</p>
 
-<p>Open file <code>include\loader.py</code> and modify <code>sql</code> variable on line 24.</p>
+<p>Open file <a href="https://github.com/alexbuz/Oracle-To-Redshift-Data-Loader/blob/master/dist-64bit/include/loader.py">include\loader.py</a> and modify <code>sql</code> variable on line 24.</p>
 
 <pre><code>    sql="""
 COPY %s FROM '%s' 
@@ -341,6 +343,15 @@ SQL</em>Plus is used to spool data to compressor pipe.
 psycopg2 is used to establish ODBC connection with Redshift clusted and execute <code>COPY</code> command.</p>
 
 <h4>
+<a id="why-dont-you-use-odbc-driver-for-redshift-to-insert-data" class="anchor" href="#why-dont-you-use-odbc-driver-for-redshift-to-insert-data" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Why don't you use ODBC driver for Redshift to insert data?</h4>
+
+<p>From my experience it's much slower that COPY command.
+It's 10x faster to upload CSV file to Amazon-S3 first and then run COPY command.
+You can still use ODBC for last step.
+If you are a Java shop, take a look at Progress <a href="https://www.progress.com/blogs/booyah-amazon-redshift-challenge-loaded-in-8-min-oow14">JDBC Driver</a>.
+They claim it can load 1 mil records in 6 min.</p>
+
+<h4>
 <a id="what-would-be-my-oracle-to-aws-migration-strategy" class="anchor" href="#what-would-be-my-oracle-to-aws-migration-strategy" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>What would be my Oracle-to-AWS migration strategy?</h4>
 
 <ul>
@@ -357,9 +368,25 @@ psycopg2 is used to establish ODBC connection with Redshift clusted and execute 
 <p>Yes, <a href="https://d0.awsstatic.com/whitepapers/strategies-for-migrating-oracle-database-to-aws.pdf">here</a> it is.</p>
 
 <h4>
+<a id="do-you-use-psql-to-execute-copy-command-against-redshift" class="anchor" href="#do-you-use-psql-to-execute-copy-command-against-redshift" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Do you use psql to execute COPY command against Redshift?</h4>
+
+<p>No. I use <code>psycopg2</code> python module (ODBC).</p>
+
+<h4>
+<a id="why-are-you-uploading-extracted-data-to-s3-whould-it-be-easier-to-just-execute-copy-command-for-local-spool-file" class="anchor" href="#why-are-you-uploading-extracted-data-to-s3-whould-it-be-easier-to-just-execute-copy-command-for-local-spool-file" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Why are you uploading extracted data to S3? whould it be easier to just execute COPY command for local spool file?</h4>
+
+<p>As of now you cannot load from local file. You can use COPY command with Amazon Redshift, but only with files located on S3.
+If you are loading CSV file from Windows command line - take a look at <a href="https://github.com/alexbuz/CSV_Loader_For_Redshift">CSV_Loader_For_Redshift</a></p>
+
+<h4>
+<a id="can-i-modify-spooler-code" class="anchor" href="#can-i-modify-spooler-code" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Can I modify spooler code?</h4>
+
+<p>Yes. Spooler code is in <a href="https://github.com/alexbuz/Oracle-To-Redshift-Data-Loader/blob/master/dist-64bit/include/extractor.py">include\extractor.py</a>.</p>
+
+<h4>
 <a id="can-i-modify-default-psql-copy-command" class="anchor" href="#can-i-modify-default-psql-copy-command" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Can I modify default psql COPY command?</h4>
 
-<p>Yes. Edit include/loader.py and add/remove COPY command options</p>
+<p>Yes. Edit <a href="https://github.com/alexbuz/Oracle-To-Redshift-Data-Loader/blob/master/dist-64bit/include/loader.py">include\loader.py</a> and add/remove COPY command options</p>
 
 <p>Other options you may use:</p>
 
@@ -384,8 +411,7 @@ MAXERROR AS $MaxERROR
 <h4>
 <a id="does-it-create-target-redshift-table" class="anchor" href="#does-it-create-target-redshift-table" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Does it create target Redshift table?</h4>
 
-<p>By default <code>No</code>
-Using   <code>include\loader.py</code> include you can extend default functionality and code in target table creation.</p>
+<p>By default no, but using <a href="https://github.com/alexbuz/Oracle-To-Redshift-Data-Loader/blob/master/dist-64bit/include/loader.py">include\loader.py</a> you can extend default functionality and code in target table creation.</p>
 
 <h4>
 <a id="where-are-the-sources" class="anchor" href="#where-are-the-sources" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Where are the sources?</h4>
