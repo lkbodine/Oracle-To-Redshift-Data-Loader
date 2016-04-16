@@ -321,8 +321,8 @@ Other options you may use:
     STATUPDATE ON
     MAXERROR AS $MaxERROR
     
-#### Can I map Redshift table columns?
-Yes. You can modify default COPY command ths tool is using and map target table column.
+#### Can I map Redshift table columns in COPY command?
+Yes. You can modify default COPY command this tool is using and map target table column.
 Check [Amazon-Redshift](http://docs.aws.amazon.com/redshift/latest/dg/copy-parameters-column-mapping.html) documentation for details.
 
 #### Does it delete file from S3 after upload?
