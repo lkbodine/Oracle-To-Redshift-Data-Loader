@@ -325,6 +325,13 @@ Other options you may use:
 Yes. You can modify default COPY command this tool is using and map target table column.
 Check [Amazon-Redshift](http://docs.aws.amazon.com/redshift/latest/dg/copy-parameters-column-mapping.html) documentation for details.
 
+#### I'm experiencing errors in Redshift. How can I debug?
+you can query stl_load_errors table for loader errors.
+```
+avrocluster=# select * from stl_load_errors order by starttime desc;
+```
+Also, you can include print statements into [include\loader.py](https://github.com/alexbuz/Oracle-To-Redshift-Data-Loader/blob/master/dist-64bit/include/loader.py). script to see what command is actually executed.
+
 #### Does it delete file from S3 after upload?
 No
 
