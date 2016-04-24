@@ -1,5 +1,5 @@
 # Oracle-to-Redshift-Data-Loader
-    Ground to cloud data intefration tool.
+    Ground to cloud data integration tool.
     Used for ad-hoc query results load from Oracle to Amazon-Redshift.
     Works from Windows CLI (command line).
 
