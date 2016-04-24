@@ -34,7 +34,8 @@
         <h1>
 <a id="oracle-to-redshift-data-loader" class="anchor" href="#oracle-to-redshift-data-loader" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Oracle-to-Redshift-Data-Loader</h1>
 
-<pre><code>Used for ad-hoc query results load from Oracle to Amazon-Redshift.
+<pre><code>Ground to cloud data integration tool.
+Used for ad-hoc query results load from Oracle to Amazon-Redshift.
 Works from Windows CLI (command line).
 </code></pre>
 
@@ -441,6 +442,16 @@ MAXERROR AS $MaxERROR
 
 <p>Yes. You can modify default COPY command this tool is using and map target table column.
 Check <a href="http://docs.aws.amazon.com/redshift/latest/dg/copy-parameters-column-mapping.html">Amazon-Redshift</a> documentation for details.</p>
+
+<h4>
+<a id="im-experiencing-errors-in-redshift-how-can-i-debug" class="anchor" href="#im-experiencing-errors-in-redshift-how-can-i-debug" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>I'm experiencing errors in Redshift. How can I debug?</h4>
+
+<p>you can query stl_load_errors table for loader errors.</p>
+
+<pre><code>avrocluster=# select * from stl_load_errors order by starttime desc;
+</code></pre>
+
+<p>Also, you can include print statements into <a href="https://github.com/alexbuz/Oracle-To-Redshift-Data-Loader/blob/master/dist-64bit/include/loader.py">include\loader.py</a>. script to see what command is actually executed.</p>
 
 <h4>
 <a id="does-it-delete-file-from-s3-after-upload" class="anchor" href="#does-it-delete-file-from-s3-after-upload" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Does it delete file from S3 after upload?</h4>
