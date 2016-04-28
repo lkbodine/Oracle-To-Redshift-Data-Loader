@@ -250,6 +250,12 @@ You can run multiple instances of this tool configured to copy individual partit
 #### What are the other ways to move large amounts of data from Oracle to Redshift?
 You can write a sqoop script that can be scheduled with Data Pipeline.
 
+#### Can I extract data from RDS Oracle to Amazon Redshift using this tool?
+Yes, but whatch where you invoke it. If you execute it outside of AWS you may get data charges.
+You should spawn OS Windows EC2 instance in the same Availability Zone with your DRS Oracle and /or Redshift cluster is residing.
+Login to new EC2 instance usig Remote Desktop, download `Oracle_To_S3_Data_Uploader` and run it in CLI window.
+
+
 #### Are you accessing any Oracle dictionary views or system objects?
 No. I only use DBMS_SQL.PARSE to describe query you provided in input query file.
 Check Python method `get_query_columns` in [extractor](https://github.com/alexbuz/Oracle-To-Redshift-Data-Loader/blob/master/dist-64bit/include/extractor.py) module. 
