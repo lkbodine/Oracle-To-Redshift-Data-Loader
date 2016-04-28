@@ -253,7 +253,7 @@ You can write a sqoop script that can be scheduled with Data Pipeline.
 #### Can I extract data from RDS Oracle to Amazon Redshift using this tool?
 Yes, but whatch where you invoke it. If you execute it outside of AWS you may get data charges.
 You should spawn OS Windows EC2 instance in the same Availability Zone with your DRS Oracle and /or Redshift cluster is residing.
-Login to new EC2 instance usig Remote Desktop, download `Oracle_To_S3_Data_Uploader` and run it in CLI window.
+Login to new EC2 instance usig Remote Desktop, download `Oracle-To-Redshift-Data-Loader` and run it in CLI window.
 
 
 #### Are you accessing any Oracle dictionary views or system objects?
