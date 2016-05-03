@@ -236,7 +236,28 @@ SELECT * FROM SOURCE_TABLE_NAME;
 ```
  - here `SOURCE_TABLE_NAME` is Oracle a table you want to copy over to Redshift.
  - Target table has to exist.
+ 
+#### I do not want to copy the whole table. Can I just copy one Oracle table patition to Amazon Redshift Database?
+Yes, use standard partition syntax.
+Create query.sql file in the following format:
+```
+SELECT * FROM SOURCE_TABLE_NAME PARTITION(PART_NAME_1);
+```
+ - here `SOURCE_TABLE_NAME` is Oracle a table you want to copy over to Redshift.
+ - here `PART_NAME_1` is source table partition.
+ - Target table has to exist.
 
+
+#### I'm joining tables in Oracle and need to copy results to Amazon Redshift database. Is it possible?
+Yes, create query.sql file in the following format:
+```
+SELECT t1.* 
+  FROM table1 t1, table2 t2 
+ WHERE t1.id=t2.id;
+```
+ - Target table has to exist.
+
+ 
 #### Can developers integrate `Oracle-to-Redshift-Data-Loader` into their ETL pipelines?
 Yes. Assuming they are doing it on OS Windows.
 
