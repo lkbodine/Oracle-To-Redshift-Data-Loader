@@ -315,6 +315,35 @@ Create query.sql file in the following format:</p>
 </ul>
 
 <h4>
+<a id="i-do-not-want-to-copy-the-whole-table-can-i-just-copy-one-oracle-table-patition-to-amazon-redshift-database" class="anchor" href="#i-do-not-want-to-copy-the-whole-table-can-i-just-copy-one-oracle-table-patition-to-amazon-redshift-database" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>I do not want to copy the whole table. Can I just copy one Oracle table patition to Amazon Redshift Database?</h4>
+
+<p>Yes, use standard partition syntax.
+Create query.sql file in the following format:</p>
+
+<pre><code>SELECT * FROM SOURCE_TABLE_NAME PARTITION(PART_NAME_1);
+</code></pre>
+
+<ul>
+<li>here <code>SOURCE_TABLE_NAME</code> is Oracle a table you want to copy over to Redshift.</li>
+<li>here <code>PART_NAME_1</code> is source table partition.</li>
+<li>Target table has to exist.</li>
+</ul>
+
+<h4>
+<a id="im-joining-tables-in-oracle-and-need-to-copy-results-to-amazon-redshift-database-is-it-possible" class="anchor" href="#im-joining-tables-in-oracle-and-need-to-copy-results-to-amazon-redshift-database-is-it-possible" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>I'm joining tables in Oracle and need to copy results to Amazon Redshift database. Is it possible?</h4>
+
+<p>Yes, create query.sql file in the following format:</p>
+
+<pre><code>SELECT t1.* 
+  FROM table1 t1, table2 t2 
+ WHERE t1.id=t2.id;
+</code></pre>
+
+<ul>
+<li>Target table has to exist.</li>
+</ul>
+
+<h4>
 <a id="can-developers-integrate-oracle-to-redshift-data-loader-into-their-etl-pipelines" class="anchor" href="#can-developers-integrate-oracle-to-redshift-data-loader-into-their-etl-pipelines" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Can developers integrate <code>Oracle-to-Redshift-Data-Loader</code> into their ETL pipelines?</h4>
 
 <p>Yes. Assuming they are doing it on OS Windows.</p>
@@ -340,7 +369,7 @@ You can run multiple instances of this tool configured to copy individual partit
 
 <p>Yes, but whatch where you invoke it. If you execute it outside of AWS you may get data charges.
 You should spawn OS Windows EC2 instance in the same Availability Zone with your DRS Oracle and /or Redshift cluster is residing.
-Login to new EC2 instance usig Remote Desktop, download <code>Oracle_To_S3_Data_Uploader</code> and run it in CLI window.</p>
+Login to new EC2 instance usig Remote Desktop, download <code>Oracle-To-Redshift-Data-Loader</code> and run it in CLI window.</p>
 
 <h4>
 <a id="are-you-accessing-any-oracle-dictionary-views-or-system-objects" class="anchor" href="#are-you-accessing-any-oracle-dictionary-views-or-system-objects" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Are you accessing any Oracle dictionary views or system objects?</h4>
