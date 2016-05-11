@@ -247,6 +247,8 @@ SELECT * FROM SOURCE_TABLE_NAME PARTITION(PART_NAME_1);
  - here `PART_NAME_1` is source table partition.
  - Target table has to exist.
 
+#### Can I stage data in any S3 Region?
+No, the Amazon S3 staging folder must be in the same region as the Redshift cluster.
 
 #### I'm joining tables in Oracle and need to copy results to Amazon Redshift database. Is it possible?
 Yes, create query.sql file in the following format:
