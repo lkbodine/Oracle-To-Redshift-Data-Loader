@@ -375,7 +375,7 @@ Can I delete/truncate Oracle source after load?
 No, but you can code it into [include\extractor.py](https://github.com/alexbuz/Oracle-To-Redshift-Data-Loader/blob/master/dist-64bit/include/extractor.py)
 
 #### Where are the sources?
-Please, contact me for sources.
+Sources are [here](https://github.com/alexbuz/Oracle-To-Redshift-Data-Loader/tree/master/sources).
 Extractor code: [include\extractor.py](https://github.com/alexbuz/Oracle-To-Redshift-Data-Loader/blob/master/dist-64bit/include/extractor.py)
 Loader code: [include\loader.py](https://github.com/alexbuz/Oracle-To-Redshift-Data-Loader/blob/master/dist-64bit/include/loader.py)
 
