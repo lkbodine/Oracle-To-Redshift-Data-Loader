@@ -15,11 +15,11 @@ Features:
  - Written using Python/boto/psycopg2.
 
 
-##Version
-
-OS|Platform|Version 
----|---|---- | -------------
-Windows|64bit|[1.2 beta]
+##Other scripts
+  - [Oracle -> S3](https://github.com/alexbuz/Oracle_To_S3_Data_Uploader/blob/master/README.md) data loader
+  - [PostgreSQL -> Redshift](https://github.com/alexbuz/PostgreSQL_To_Redshift_Loader/blob/master/README.md) data loader
+  - [MySQL -> Redshift](https://github.com/alexbuz/MySQL_To_Redshift_Loader/blob/master/README.md) data loader
+  - [CSV -> Redshift](https://github.com/alexbuz/CSV_Loader_For_Redshift/blob/master/README.md) data loader
 
 ##Purpose
 
