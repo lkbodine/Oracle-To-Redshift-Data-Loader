@@ -55,24 +55,18 @@ Works from Windows CLI (command line).
 </ul>
 
 <h2>
-<a id="version" class="anchor" href="#version" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Version</h2>
+<a id="other-scripts" class="anchor" href="#other-scripts" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Other scripts</h2>
 
-<table>
-<thead>
-<tr>
-<th>OS</th>
-<th>Platform</th>
-<th>Version</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Windows</td>
-<td>64bit</td>
-<td>[1.2 beta]</td>
-</tr>
-</tbody>
-</table>
+<ul>
+<li>
+<a href="https://github.com/alexbuz/Oracle_To_S3_Data_Uploader/blob/master/README.md">Oracle -&gt; S3</a> data loader</li>
+<li>
+<a href="https://github.com/alexbuz/PostgreSQL_To_Redshift_Loader/blob/master/README.md">PostgreSQL -&gt; Redshift</a> data loader</li>
+<li>
+<a href="https://github.com/alexbuz/MySQL_To_Redshift_Loader/blob/master/README.md">MySQL -&gt; Redshift</a> data loader</li>
+<li>
+<a href="https://github.com/alexbuz/CSV_Loader_For_Redshift/blob/master/README.md">CSV -&gt; Redshift</a> data loader</li>
+</ul>
 
 <h2>
 <a id="purpose" class="anchor" href="#purpose" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Purpose</h2>
@@ -330,6 +324,11 @@ Create query.sql file in the following format:</p>
 </ul>
 
 <h4>
+<a id="can-i-stage-data-in-any-s3-region" class="anchor" href="#can-i-stage-data-in-any-s3-region" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Can I stage data in any S3 Region?</h4>
+
+<p>No, the Amazon S3 staging folder must be in the same region as the Redshift cluster.</p>
+
+<h4>
 <a id="im-joining-tables-in-oracle-and-need-to-copy-results-to-amazon-redshift-database-is-it-possible" class="anchor" href="#im-joining-tables-in-oracle-and-need-to-copy-results-to-amazon-redshift-database-is-it-possible" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>I'm joining tables in Oracle and need to copy results to Amazon Redshift database. Is it possible?</h4>
 
 <p>Yes, create query.sql file in the following format:</p>
@@ -510,7 +509,7 @@ No, but you can code it into <a href="https://github.com/alexbuz/Oracle-To-Redsh
 <h4>
 <a id="where-are-the-sources" class="anchor" href="#where-are-the-sources" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Where are the sources?</h4>
 
-<p>Please, contact me for sources.
+<p>Sources are <a href="https://github.com/alexbuz/Oracle-To-Redshift-Data-Loader/tree/master/sources">here</a>.
 Extractor code: <a href="https://github.com/alexbuz/Oracle-To-Redshift-Data-Loader/blob/master/dist-64bit/include/extractor.py">include\extractor.py</a>
 Loader code: <a href="https://github.com/alexbuz/Oracle-To-Redshift-Data-Loader/blob/master/dist-64bit/include/loader.py">include\loader.py</a></p>
 
