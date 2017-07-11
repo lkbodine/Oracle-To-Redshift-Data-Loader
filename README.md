@@ -15,7 +15,7 @@ Features:
  - Written using Python/boto/psycopg2.
 
 
-##Other scripts
+## Other scripts
   - [DataWorm for Oracle](https://github.com/alexbuz/DataWorm/blob/master/README.md) ad-hoc backup.
   - [TableHunter for Oracle](https://github.com/alexbuz/TableHunter-For-Oracle) Win OS spooler
   
@@ -29,7 +29,7 @@ Features:
   - [Oracle->MySQL](https://github.com/alexbuz/Oracle-to-MySQL-DataMigrator/blob/master/README.txt) data loader.
   - [CSV->S3](https://github.com/alexbuz/S3_File_Uploader/blob/master/README.md) data uploader.
 
-##Purpose
+## Purpose
 
 - Stream/pipe/load Oracle table data to Amazon-Redshift.
 
@@ -56,7 +56,7 @@ Database/ETL developers, Data Integrators, Data Engineers, Business Analysts, AW
 ##Designated Environment
 Pre-Prod (UAT/QA/DEV)
 
-##Usage
+## Usage
 
 ```
 c:\Python35-32\PROJECTS\Ora2redshift>dist\oracle_to_Redshift_loader.exe
@@ -112,10 +112,10 @@ Usage:
         psycopg2 docs: http://initd.org/psycopg/docs/
 
 ```
-#Example
+## Example
 
 
-###Environment variables
+### Environment variables
 Set the following environment variables (for all tests):
 
 ```
@@ -404,7 +404,7 @@ Yes, [AWS Certified Developer (Associate)](https://raw.githubusercontent.com/ale
 Yes, you can PM me here or email at `alex_buz@yahoo.com`.
 I'll get back to you within hours.
 
-###Links
+### Links
  - [Employment FAQ](https://github.com/alexbuz/FAQs/blob/master/README.md)
 
 
